@@ -1,0 +1,54 @@
+1.  create two buckets in two different AWS Account.
+2.  Let’s name our source bucket as source-1 and keep it in the Asia Pacific (Mumbai) ap-south 1 region (optional). 
+     Do not forget to enable versioning.
+     Also, note that the S3 bucket name needs to be globally unique and hence try adding random numbers after bucket name.
+3.  Now following the same steps create a destination bucket ie:- destination-1 with versioning enabled but choose a different Account Ie:- Account 2 this time.  
+     Go to Account 2--->destination bucket--->permission--->edit a bucket policy and write script.
+     script:-
+    -----------
+{
+    "Version": "2012-10-17",
+    "Id": "",
+    "Statement": [
+        {
+            "Sid": "Set permissions for objects",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::022873700948:root"
+            },
+            "Action": [
+                "s3:ReplicateObject",
+                "s3:ReplicateDelete"
+            ],
+            "Resource": "arn:aws:s3:::destination-1/*"
+        },
+        {
+            "Sid": "Set permissions on bucket",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::022873700948:root"
+            },
+            "Action": [
+                "s3:List*",
+                "s3:GetBucketVersioning",
+                "s3:PutBucketVersioning"
+            ],
+            "Resource": "arn:aws:s3:::destination-1"
+        }
+    ]
+}
+    save it.
+
+
+4.  Now click on your source bucket and head over to the management tab.
+5.  Now, click on “Create a replication rule” and give your replication rule a name as “ replicate-1” .
+6.  Choose the  option to choose a destination bucket in another account and put Account id and bucket name”.  
+7.   In order to replicate objects from the source bucket to the destination bucket, you need to create an IAM role. So just create one by clicking on “create a new role”.  
+8.   As soon as you click on save.
+      A screen will pop up asking if you want to replicate existing objects in the S3 bucket. But that will incur charges so we will proceed without replicating existing objects and click on submit.  
+9.   After completing this setup you can see a screen saying “Replication configuration successfully updated”.
+10. Now go to the source bucket: source-1 and upload a file.   
+11. Now head over to our destination bucket: destination-1 to check if the uploaded file is replicated to our destination bucket. 
+      You can see that our uploaded file is successfully copied to the destination bucket:
+
+NOTE:- Do not forget to empty your buckets and then delete them, if you do not have any further use. Also, you cannot delete a bucket if it is not empty.  

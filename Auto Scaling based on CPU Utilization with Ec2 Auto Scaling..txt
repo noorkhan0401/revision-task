@@ -1,0 +1,66 @@
+1. Go to AutoScaling--->Autoscaling groupname:-
+        * Switch Launch template to Launch Configration
+(If we do not have any launch configration then create it)
+
+*launch configration name:- LC1
+*Amazon Machine Image:- copy the id of instance image of linux and paste here, after that we get a option select it.
+*instance type:- t2.micro (freely available)
+*Security group:-
+  create a new security group ( it fill automatic security details )
+*Rules
+
+type         protocol   port-range      source-type       source
+HTTP     TCP               80            anywhere           0.0.0.0/0
+
+key pair:-  choose key if present otherwise create a new
+ 
+launch configration.
+
+2. Go to Autoscaling tab--->launch configration-->next-->select all availability zones-->next-->configure group size and scaling policies.
+    * desired capacity-->3
+    * min capacity---> 2
+    * max capacity--->2
+create Auto Scaling group.
+
+NOTE:- According to policies the instances are created and it start run.
+
+
+3. click on created Autoscaling group--->Autoscaling tab-->create dynamic-->scaling policy
+     *policy type:- simple scaling
+     *scaling policy name:- Increase
+take Action
+     *Add      2     capacity units
+Create
+
+Note:- Again create similar steps for decreasing method.
+
+4. Now go to cloud watch and create alarm.
+-------------------------------------------------------
+craete alarm--->Ec2--->Autoscaling group--->select CPUutilization of created autoscale group-->select metric-->static.
+                *for Increase :- Greater/equal     than  70
+                *for decrease :- Lower/equal        than  20
+
+In Alarm-->select existing SNS topic-->Autoscaling Action
+In Alarm-->Ec2 Autoscaling group-->select group
+take the following action-->Increase--->Next
+               *Alarm Name:- Increase Alarm---->next--->Create Alarm.( here Alarm is created )
+
+NOTE:- Create again for decrease but In decrease lower/equal than 20. we select,
+
+Again go to Autoscaling groups-->click on groups-->Automatic scaling--->then, here saw the Dynamic scaling policy(which is created previous)-->
+selectas per requirements-->Action-->edit-->update.
+ Note:- go to ec2 and see the no.of instances is decreases.
+ Note:-  go to Mobaxterm --->take ssh-->for increase we should increase the stress and we saw the result.
+
+
+
+
+
+
+
+
+
+
+
+
+

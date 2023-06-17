@@ -1,0 +1,12 @@
+1. in AWS s3 ---> create a bucket (create a bucket with full ACl, Versioning and all permisssion which is required for publically access).
+2. For hosting a template we required template. So go to google and search "CSS free template" and download any free template.
+3. Downloaded file are in zip file format. So extract it.
+4. Click on AWS s3 created bucket and upload the downloaded template. (upload complete files and folder).
+5. Go to properties tab --->scroll down and select static web hosting and click on edit.
+       *Select--enable
+       *Index Documents:- index.html
+       *Error Documents:- (Optional)
+6. Save it.
+7. We get a link.
+8. After that give ACL permission or grant all public access to uploaded document also make public using Acl.
+9. Copy that link and ping on google we get web page.

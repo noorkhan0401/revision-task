@@ -1,0 +1,22 @@
+Click on Ec2 ---> Instance ---> give name
+                 * Select Amazon Linux AWS
+                 * Instance Type ---> t2.micro
+                 * Generate key pair
+                 * Networking Setting ---> create Security group
+                                                             Allow SSH traffic from.
+                                                             Allow HTTPS traffic from the Internet.
+                                                              Allow HTTP traffic from the Internet.
+                *Configure Storage--->(By default)
+                *Advanced Details----> go to below user data and write script for web hosting.
+                        
+                #!/bin/bash
+
+               sudo yum update -y
+               sudo yum install -y httpd
+               sudo systemctl start httpd
+               sudo systemctl enable httpd
+               sudo echo "Welcome to the darkweb $(hostname -f)" > /var/www/html/index.html
+               
+              *Launch Instance (After fully Activated)
+
+Go to Web Browser and search by using public ip of Instances.
